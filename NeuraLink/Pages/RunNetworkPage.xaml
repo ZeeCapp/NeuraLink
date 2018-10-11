@@ -11,10 +11,10 @@
       Title="NetworkPlain">
     <Grid Background="#FF232323" x:Name="GraphContainer">
         <Grid.RowDefinitions>
-            <RowDefinition Height="480"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <CustomControls:Graph VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="0" x:Name="DataGraph" Height="450" GraphColor="#c8c8c8"></CustomControls:Graph>
+        <CustomControls:Graph VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" x:Name="DataGraph" MinHeight="450" GraphColor="#c8c8c8"></CustomControls:Graph>
         <!--<Canvas Background="#FF232323" x:Name="DataGraph" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="450" Grid.Row="0">
         </Canvas>-->
     </Grid>

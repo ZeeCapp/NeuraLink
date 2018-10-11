@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:NeuraLink"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <Color x:Key="DarkBackground" R="35" G="35" B="35"></Color>
 
         <Style TargetType="Button" x:Key="TopMenuButton">
             <Setter Property="Width" Value="220"></Setter>
@@ -15,6 +16,7 @@
             <Setter Property="BorderThickness" Value="0"></Setter>
             <Setter Property="FontWeight" Value="Heavy"></Setter>
             <Setter Property="FontSize" Value="22"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -46,9 +48,7 @@
             </Style.Triggers>
         </Style>
 
-        
-        
-        
+           
         <Style TargetType="Button" x:Key="MenuButton">
             <Setter Property="Width" Value="220"></Setter>
             <Setter Property="Height" Value="120"></Setter>
@@ -59,6 +59,7 @@
             <Setter Property="BorderThickness" Value="0"></Setter>
             <Setter Property="FontWeight" Value="Heavy"></Setter>
             <Setter Property="FontSize" Value="22"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -89,5 +90,16 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="TextBox" x:Key="ConsoleStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </Application.Resources>
 </Application>

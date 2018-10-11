@@ -1,0 +1,33 @@
+﻿<Page x:Class="NeuraLink.Pages.TrainNetworkPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NeuraLink.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="600"
+      Title="TrainNetworkPage"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      >
+
+    <Grid Background="#FF232323" x:Name="TrainNetworkPageGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="consoleTextBox"
+                 Style="{StaticResource ResourceKey=ConsoleStyle}"
+                 HorizontalAlignment="Stretch" 
+                 Height="380" Margin="10,10,10,0" 
+                 TextWrapping="Wrap"
+                 TextAlignment="Left"
+                 Foreground="#FFE4E4E4"
+                 VerticalAlignment="Top"
+                 BorderBrush="#FFE4E4E4"
+                 BorderThickness="2"
+                 Background="{Binding Background, ElementName=TrainNetworkPageGrid}" SelectionBrush="#FF7C7C7C"
+                 />
+
+    </Grid>
+</Page>

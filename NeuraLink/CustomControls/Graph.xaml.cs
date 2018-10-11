@@ -39,16 +39,15 @@ namespace NeuraLink.CustomControls
         public List<double> CurrentData
         {
             get { return _CurrentData; }
-            set { _CurrentData = value; DrawData(_CurrentData); }
+            set { _CurrentData = value; UpdateGraph(null,null); }
         }
 
         private Canvas graph;
-        private Line xPlain = new Line();
-        private Line yPlain = new Line();
+        private Line xPlain;
+        private Line yPlain;
 
         private double verticalStep = 0;
         private double horizontalStep = 0;
-
 
         public Graph()
         {
@@ -64,15 +63,12 @@ namespace NeuraLink.CustomControls
         {
             graph.Children.Clear();
             graph.RaiseEvent(new RoutedEventArgs(Canvas.LoadedEvent, graph));
-
-            if (CurrentData != null)
-            {
-                DrawData(CurrentData);
-            }
+            DrawData(null);
         }
 
         public void DrawData(List<double> data)
         {
+            graph.Children.Clear();
             double lastX = 0, lastY = 0;
 
             if(data != null && data != CurrentData)
@@ -80,6 +76,7 @@ namespace NeuraLink.CustomControls
                 _CurrentData = data;
             }
 
+            DrawGraphPlains(null, null);
             DrawNumbers(CurrentData.Count);
             DrawGraphScale(CurrentData.Count, CurrentData);
 
@@ -100,12 +97,15 @@ namespace NeuraLink.CustomControls
 
         private void DrawGraphPlains(object sender, EventArgs args)
         {
+            graph.Children.Clear();
+            xPlain = new Line();
             xPlain.X1 = 30;
-            xPlain.Y1 = (graph.Parent as Graph).RenderSize.Height - 30;
+            xPlain.Y1 = graph.RenderSize.Height - 30;
             xPlain.X2 = graph.ActualWidth - 10;
             xPlain.Y2 = graph.ActualHeight - 30;
             xPlain.Stroke = GraphColor;
 
+            yPlain = new Line();
             yPlain.X1 = 30;
             yPlain.Y1 = 5;
             yPlain.X2 = 30;
@@ -114,11 +114,6 @@ namespace NeuraLink.CustomControls
 
             graph.Children.Add(xPlain);
             graph.Children.Add(yPlain);
-
-            if (CurrentData != null)
-            {
-                DrawData(CurrentData);
-            }
         }
 
         private void DrawGraphScale(int lengthOfData, List<double> data)
@@ -126,14 +121,6 @@ namespace NeuraLink.CustomControls
             double max = data.Max();
             horizontalStep = (graph.ActualWidth - 30) / lengthOfData;
             verticalStep = (graph.ActualHeight - 60) / max;
-
-            for (int n = 1; n <= lengthOfData; n++)
-            {
-                TextBlock number = CreateNewNumber();
-                number.Margin = new Thickness(horizontalStep * n, 430, 0, 0);
-                number.Text = n.ToString();
-                graph.Children.Add(number);
-            }
 
             TextBlock verticalMax = CreateNewNumber();
             verticalMax.Margin = new Thickness(7, 25, 0, 0);
@@ -158,7 +145,7 @@ namespace NeuraLink.CustomControls
             for (int n = 1; n <= lengthOfData; n++)
             {
                 TextBlock number = CreateNewNumber();
-                number.Margin = new Thickness(numberGap * n, 430, 0, 0);
+                number.Margin = new Thickness(numberGap * n, graph.ActualHeight -25, 0, 0);
                 number.Text = n.ToString();
                 graph.Children.Add(number);
             }

@@ -74,14 +74,21 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RunNetworkPage.xaml">
+    <Page Include="Pages\RunNetworkPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TrainNetworkPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RunNetworkPage.xaml.cs">
+    <Compile Include="Pages\RunNetworkPage.xaml.cs">
       <DependentUpon>RunNetworkPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TrainNetworkPage.xaml.cs">
+      <DependentUpon>TrainNetworkPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

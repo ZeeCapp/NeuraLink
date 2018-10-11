@@ -1,4 +1,5 @@
 ﻿using NeuraLink.CustomControls;
+using NeuraLink.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,9 @@ namespace NeuraLink
     /// </summary>
     public partial class MainWindow : Window
     {
-        Graph graph;
+        private Graph graph;
+        private Page currentRunPage = new RunNetworkPage();
+        private Page currentTrainPage = new TrainNetworkPage();
 
         public MainWindow()
         {
@@ -31,6 +34,7 @@ namespace NeuraLink
         private void TrainNetworkButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = null;
+            MainFrame.Content = currentTrainPage;
             TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
             RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
 
@@ -40,7 +44,7 @@ namespace NeuraLink
         {
             MainFrame.Content = null;
 
-            MainFrame.Content = new RunNetworkPage();
+            MainFrame.Content = currentRunPage;
             graph = (Graph)MainFrame.FindName("DataGraph");
             //MainFrame.Content = new RunNetworkPageLogic(MainFrame.ActualWidth, MainFrame.ActualHeight, new List<double> { 1,2,3,2,5,6,9,1,2});
             TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
@@ -56,7 +60,6 @@ namespace NeuraLink
             {
                 Graph graph = (Graph)currentPage.FindName("DataGraph");
                 graph.CurrentData = new List<double> { 1, 4, 2, 8, 7, 2 };
-                graph.UpdateGraph(null,null);
             }
 
             //if (content is RunNetworkPageLogic)
