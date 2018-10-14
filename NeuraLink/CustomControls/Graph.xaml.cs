@@ -56,48 +56,50 @@ namespace NeuraLink.CustomControls
             graph = (Canvas)this.FindName("GraphCanvas");
             graph.VerticalAlignment = VerticalAlignment.Stretch;
             graph.HorizontalAlignment = HorizontalAlignment.Stretch;
-            graph.Loaded += DrawGraphPlains;
+            graph.Loaded += UpdateGraph;
         }
 
         public void UpdateGraph(object sender, EventArgs args)
         {
             graph.Children.Clear();
-            graph.RaiseEvent(new RoutedEventArgs(Canvas.LoadedEvent, graph));
             DrawData(null);
         }
 
         public void DrawData(List<double> data)
         {
             graph.Children.Clear();
-            double lastX = 0, lastY = 0;
+            DrawGraphPlains(null, null);
 
             if(data != null && data != CurrentData)
             {
                 _CurrentData = data;
             }
 
-            DrawGraphPlains(null, null);
-            DrawNumbers(CurrentData.Count);
-            DrawGraphScale(CurrentData.Count, CurrentData);
-
-            for (int n = 0; n < CurrentData.Count; n++)
+            if (CurrentData != null)
             {
-                double currentX, currentY;
-                double topMargin = (verticalStep * CurrentData[n]);
+                double lastX = 0, lastY = 0;
 
-                Ellipse dataPoint = CreateNewEllipse();
-                dataPoint.Margin = new Thickness(currentX = (n + 1) * horizontalStep, currentY = graph.ActualHeight - (topMargin + 30), 0, 0);
-                graph.Children.Add(dataPoint);
-                graph.Children.Add(GenerateConnectingLine(lastX, lastY, currentX, currentY));
+                DrawNumbers(CurrentData.Count);
+                DrawGraphScale(CurrentData.Count, CurrentData);
 
-                lastX = currentX;
-                lastY = currentY;
+                for (int n = 0; n < CurrentData.Count; n++)
+                {
+                    double currentX, currentY;
+                    double topMargin = (verticalStep * CurrentData[n]);
+
+                    Ellipse dataPoint = CreateNewEllipse();
+                    dataPoint.Margin = new Thickness(currentX = (n + 1) * horizontalStep, currentY = graph.ActualHeight - (topMargin + 30), 0, 0);
+                    graph.Children.Add(dataPoint);
+                    graph.Children.Add(GenerateConnectingLine(lastX, lastY, currentX, currentY));
+
+                    lastX = currentX;
+                    lastY = currentY;
+                }
             }
         }
 
         private void DrawGraphPlains(object sender, EventArgs args)
         {
-            graph.Children.Clear();
             xPlain = new Line();
             xPlain.X1 = 30;
             xPlain.Y1 = graph.RenderSize.Height - 30;

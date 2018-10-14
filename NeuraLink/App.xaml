@@ -95,7 +95,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        
+                        <ContentPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></ContentPresenter>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
