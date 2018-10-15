@@ -59,7 +59,10 @@ namespace NeuraLink
             if (currentPage != null)
             {
                 Graph graph = (Graph)currentPage.FindName("DataGraph");
-                graph.CurrentData = new List<double> { 1, 4, 2, 8, 7, 2 };
+                if (graph != null)
+                {
+                    graph.CurrentData = new List<double> { 1, 4, 2, 8, 7, 2 };
+                }
             }
 
             //if (content is RunNetworkPageLogic)

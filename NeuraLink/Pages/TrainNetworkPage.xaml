@@ -20,23 +20,16 @@
 
         <TextBox x:Name="consoleTextBox"
                  Style="{StaticResource ConsoleStyle}"
-                 HorizontalAlignment="Stretch" 
-                 Margin="10,10,10,10" 
-                 TextWrapping="Wrap"
-                 TextAlignment="Left"
-                 Foreground="#FFE4E4E4"
-                 VerticalAlignment="Stretch"
-                 BorderBrush="#FFE4E4E4"
-                 BorderThickness="2"
-                 VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto"
-                 Background="{Binding Background, ElementName=TrainNetworkPageGrid}" SelectionBrush="#FF7C7C7C"
                  />
 
-        <Button Content="select training data" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="144"/>
-        <TextBlock HorizontalAlignment="Left" Height="16" Margin="10,51,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="144"/>
-        <TextBox Background="{StaticResource LightBackgroundBrush}" HorizontalAlignment="Left" Height="23" Margin="10,110,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="144"/>
-        <Label  Foreground="{StaticResource LightTextBrush}" Content="number of layers" HorizontalAlignment="Left" Margin="10,82,0,0" Grid.Row="1" VerticalAlignment="Top" Width="144" FontSize="14" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
-        <ListBox Background="{StaticResource LightBackgroundBrush}"  HorizontalAlignment="Left" Height="123" Margin="192,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold"/>
+        <TextBlock Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Height="16" Margin="10,42,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="121"/>
+        <TextBox Background="{StaticResource LightBackgroundBrush}" HorizontalAlignment="Left" Height="23" Margin="10,95,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" VerticalContentAlignment="Center"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Number of layers" HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontSize="13" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
+        <ListBox Background="{StaticResource LightBackgroundBrush}"  HorizontalAlignment="Left" Height="184" Margin="166,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="244"/>
+        <Button  Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" x:Name="button" Content="Update" HorizontalAlignment="Left" Margin="58,95,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" Height="23" FontFamily="Microsoft New Tai Lue" FontWeight="Bold"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Learning time" HorizontalAlignment="Left" Margin="10,144,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontSize="13" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
+        <TextBox Background="{StaticResource LightBackgroundBrush}" HorizontalAlignment="Left" Height="23" Margin="10,171,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" VerticalContentAlignment="Center"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="hours" HorizontalAlignment="Left" Margin="77,171,0,0" Grid.Row="1" VerticalAlignment="Top" Width="54" FontSize="9" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="23" VerticalContentAlignment="Center"/>
     </Grid>
 </Page>
