@@ -15,21 +15,24 @@
     <Grid Background="#FF232323" x:Name="TrainNetworkPageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="300"/>
         </Grid.RowDefinitions>
 
         <TextBox x:Name="consoleTextBox"
                  Style="{StaticResource ConsoleStyle}"
                  />
 
-        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold"/>
-        <TextBlock Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Height="16" Margin="10,42,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="121"/>
-        <TextBox Background="{StaticResource LightBackgroundBrush}" HorizontalAlignment="Left" Height="23" Margin="10,95,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" VerticalContentAlignment="Center"/>
-        <Label  Foreground="{StaticResource LightTextBrush}" Content="Number of layers" HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontSize="13" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
-        <ListBox Background="{StaticResource LightBackgroundBrush}"  HorizontalAlignment="Left" Height="184" Margin="166,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="244"/>
-        <Button  Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" x:Name="button" Content="Update" HorizontalAlignment="Left" Margin="58,95,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" Height="23" FontFamily="Microsoft New Tai Lue" FontWeight="Bold"/>
-        <Label  Foreground="{StaticResource LightTextBrush}" Content="Learning time" HorizontalAlignment="Left" Margin="10,144,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontSize="13" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
-        <TextBox Background="{StaticResource LightBackgroundBrush}" HorizontalAlignment="Left" Height="23" Margin="10,171,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" VerticalContentAlignment="Center"/>
-        <Label  Foreground="{StaticResource LightTextBrush}" Content="hours" HorizontalAlignment="Left" Margin="77,171,0,0" Grid.Row="1" VerticalAlignment="Top" Width="54" FontSize="9" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="23" VerticalContentAlignment="Center"/>
+        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontWeight="Bold" FontSize="14"/>
+        <TextBlock Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Text="No data selected ..." Height="21" Margin="10,63,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="14" FontFamily="Microsoft New Tai Lue" Padding="5,0,0,0"/>
+        <TextBox Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="48" Margin="10,122,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" VerticalContentAlignment="Center" FontSize="18"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Number of layers" HorizontalAlignment="Left" Margin="10,89,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
+       
+        <ListBox x:Name="LayersListBox" Background="{StaticResource LightBackgroundBrush}"  HorizontalAlignment="Left" Height="196" Margin="234,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="244"/>
+        
+        <Button x:Name="UpdateLayersButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Update" HorizontalAlignment="Left" Margin="128,122,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" Height="48" FontFamily="Microsoft New Tai Lue" FontWeight="Bold" Click="UpdateLayersButton_Click" FontSize="14"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Learning time" HorizontalAlignment="Left" Margin="10,187,0,0" Grid.Row="1" VerticalAlignment="Top" Width="199" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
+        <TextBox Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="48" Margin="10,220,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" VerticalContentAlignment="Center" FontSize="18"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="hours" HorizontalAlignment="Left" Margin="128,225,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" FontSize="16" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="43" VerticalContentAlignment="Center"/>
+        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Create" HorizontalAlignment="Left" Height="48" Margin="294,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"/>
     </Grid>
 </Page>

@@ -7,10 +7,25 @@
     <Application.Resources>
         <Color x:Key="LightBackgroundColor" R="70" G="70" B="70" A="100"></Color>
         <Color x:Key="DarkBackgroundColor" R="35" G="35" B="35" A="100"></Color>
-        <Color x:Key="LightTextColor" R="228" G="228" B="228" A="100"></Color>
+        <Color x:Key="LightTextColor" R="250" G="250" B="250" A="100"></Color>
         <SolidColorBrush x:Key="LightBackgroundBrush" Color="{StaticResource LightBackgroundColor}" Opacity="100"></SolidColorBrush>
         <SolidColorBrush x:Key="LightTextBrush" Color="{StaticResource LightTextColor}" Opacity="100"></SolidColorBrush>
         <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightTextColor}" Opacity="100"></SolidColorBrush>
+        <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource DarkBackgroundColor}" Opacity="100"></SolidColorBrush>
+
+        <ListBoxItem x:Key="LayerDisplayItem">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                <TextBlock x:Name="ItemText" Text="Layer" Width="135" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Stretch" FontFamily="Microsoft New Tai Lue" FontSize="16" Foreground="{StaticResource LightTextBrush}"/>
+                <ComboBox SelectedIndex="0" Width="80" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}">
+                    <ComboBoxItem Content="Sigmoid" Background="{StaticResource DarkBackgroundBrush}">
+                        
+                    </ComboBoxItem>
+                    <ComboBoxItem Content="ReLU" Background="{StaticResource DarkBackgroundBrush}">
+
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </ListBoxItem>
 
         <Style TargetType="Button" x:Key="TopMenuButton">
             <Setter Property="Width" Value="220"></Setter>
@@ -121,6 +136,26 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         
+        <Style TargetType="TextBox" x:Key="omegalul">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border  Name="Border" Padding="3" Background="{StaticResource LightBackgroundBrush}" BorderBrush="{StaticResource LightBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#EEEEEE"/>
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

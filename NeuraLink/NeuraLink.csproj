@@ -126,6 +126,12 @@
   <ItemGroup>
     <Resource Include="Resources\logoNeuraLink.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetworks\NeuralNetworks.csproj">
+      <Project>{c8f9cd1f-a5d8-448c-80cc-eef1ff0d7509}</Project>
+      <Name>NeuralNetworks</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

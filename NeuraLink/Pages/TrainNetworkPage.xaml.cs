@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NeuralNetworks;
 
 namespace NeuraLink.Pages
 {
@@ -20,9 +21,36 @@ namespace NeuraLink.Pages
     /// </summary>
     public partial class TrainNetworkPage : Page
     {
+        private ListBox layerDisplay;
+        private NeuralNetwork neuralNetwork;
+
         public TrainNetworkPage()
         {
             InitializeComponent();
+            layerDisplay = (ListBox)this.FindName("LayersListBox");
+
+            ListBoxItem item = new ListBoxItem();
+
+            layerDisplay.Items.Add(FindResource("LayerDisplayItem"));
+        }
+
+        private void UpdateLayersButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow window = (MainWindow)MainWindow.GetWindow(this);
+            neuralNetwork = window.neuralNetwork;
+            layerDisplay.Items.Add(neuralNetwork);
+        }
+
+        private List<ListBoxItem> ConvertNetworkLayersToItems()
+        {
+            List<ListBoxItem> items = new List<ListBoxItem>();
+            ListBoxItem item;
+            foreach(Layer layer in neuralNetwork.Layers)
+            {
+                item = new ListBoxItem();
+            }
+
+            return items;
         }
     }
 }

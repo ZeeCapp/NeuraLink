@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NeuralNetworks;
 
 namespace NeuraLink
 {
@@ -25,6 +26,9 @@ namespace NeuraLink
         private Graph graph;
         private Page currentRunPage = new RunNetworkPage();
         private Page currentTrainPage = new TrainNetworkPage();
+        private ListBox layerDisplay;
+
+        public NeuralNetwork neuralNetwork;
 
         public MainWindow()
         {
