@@ -29,16 +29,36 @@ namespace NeuraLink.Pages
             InitializeComponent();
             layerDisplay = (ListBox)this.FindName("LayersListBox");
 
-            ListBoxItem item = new ListBoxItem();
+            layerDisplay.Items.Add(new ListBoxItem());
+        }
 
-            layerDisplay.Items.Add(FindResource("LayerDisplayItem"));
+        public void UpdateLayerDisplay(NeuralNetwork neuralNetwork)
+        {
+            for(int l = 1; l <= neuralNetwork.Layers.Count; l++)
+            {
+                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(),neuralNetwork.Layers[l-1].Neurons.Capacity));
+            }
         }
 
         private void UpdateLayersButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow window = (MainWindow)MainWindow.GetWindow(this);
-            neuralNetwork = window.neuralNetwork;
-            layerDisplay.Items.Add(neuralNetwork);
+            neuralNetwork = window.neuralNetwork; 
+            
+            if(layerDisplay.Items.Count - 1 > int.Parse(LayersNumber.Text))
+            {
+                for (int position = layerDisplay.Items.Count - 1; position > int.Parse(LayersNumber.Text); position--)
+                {
+                    layerDisplay.Items.RemoveAt(position);
+                }
+            }
+            else if(layerDisplay.Items.Count-1 < int.Parse(LayersNumber.Text))
+            {
+                for (int position = layerDisplay.Items.Count-1; position < int.Parse(LayersNumber.Text); position++)
+                {
+                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + (position + 1).ToString(),0));
+                }
+            }
         }
 
         private List<ListBoxItem> ConvertNetworkLayersToItems()
@@ -51,6 +71,18 @@ namespace NeuraLink.Pages
             }
 
             return items;
+        }
+
+        public class NetworkLayerDescriptor
+        {
+            public string layerName { get; set; }
+            public int neurons { get; set; }
+
+            public NetworkLayerDescriptor(string name,int neuronsNumber)
+            {
+                layerName = name;
+                neurons = neuronsNumber;
+            }
         }
     }
 }

@@ -24,8 +24,8 @@ namespace NeuraLink
     public partial class MainWindow : Window
     {
         private Graph graph;
-        private Page currentRunPage = new RunNetworkPage();
-        private Page currentTrainPage = new TrainNetworkPage();
+        private RunNetworkPage currentRunPage = new RunNetworkPage();
+        private TrainNetworkPage currentTrainPage = new TrainNetworkPage();
         private ListBox layerDisplay;
 
         public NeuralNetwork neuralNetwork;
@@ -33,12 +33,14 @@ namespace NeuraLink
         public MainWindow()
         {
             InitializeComponent();
+            neuralNetwork = NeuralNetwork.LoadNetworkFromXML(@"E:\Download\Network.xml");
         }
 
         private void TrainNetworkButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = null;
             MainFrame.Content = currentTrainPage;
+            currentTrainPage.UpdateLayerDisplay(neuralNetwork);
             TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
             RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
 
