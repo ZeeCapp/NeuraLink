@@ -28,7 +28,7 @@ namespace NeuralNetworks
         /// <param name="layers">Number of neurons in each layer</param>
         /// <param name="activationFunction">Type of activation function used by the network</param>
         /// <param name="learningRate">Learning speed of the network</param>
-        public NeuralNetwork(int[] layers, double learningRate, double bias, ActivationFunctions activationFunction)
+        private NeuralNetwork(int[] layers, double learningRate, double bias, ActivationFunctions activationFunction)
         {
             this.Layers = new List<Layer>();
             this.selectedFunction = (int)activationFunction;
@@ -37,7 +37,7 @@ namespace NeuralNetworks
             stopwatch = new Stopwatch();     
         }
 
-        public NeuralNetwork(List<Layer> layers)
+        private NeuralNetwork(List<Layer> layers)
         {
             this.Layers = layers;
         }
@@ -427,17 +427,17 @@ namespace NeuralNetworks
                 {
                     if (i == 0)
                     {
-                        this.Layers.Add(new Layer(layers[i], 0));
+                        this.Layers.Add(new Layer(layers[i], 0, activationFunctions[i]));
                     }
                     else
                     {
                         if (activationFunctions == null)
                         {
-                            this.Layers.Add(new Layer(layers[i], layers[i - 1]));
+                            this.Layers.Add(new Layer(layers[i], layers[i - 1], activationFunctions[i]));
                         }
                         else
                         {
-                            this.Layers.Add(new Layer(layers[i], layers[i - 1]));
+                            this.Layers.Add(new Layer(layers[i], layers[i - 1], activationFunctions[i]));
                         }
 
                         foreach (Neuron neuron in Layers[i].Neurons)

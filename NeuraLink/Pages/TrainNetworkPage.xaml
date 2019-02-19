@@ -22,8 +22,8 @@
                  Style="{StaticResource ConsoleStyle}"
                  />
 
-        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontWeight="Bold" FontSize="14"/>
-        <TextBlock Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Text="No data selected ..." Height="21" Margin="10,63,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="14" FontFamily="Microsoft New Tai Lue" Padding="5,0,0,0"/>
+        <Button x:Name="TrainingDataButton"  Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontWeight="Bold" FontSize="14" Click="TrainingDataButton_Click"/>
+        <TextBlock x:Name="SelectedDataTextBlock" Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Text="No data selected ..." Height="21" Margin="10,63,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="14" FontFamily="Microsoft New Tai Lue" Padding="5,0,0,0"/>
         <TextBox x:Name="LayersNumber" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="48" Margin="10,122,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" VerticalContentAlignment="Center" FontSize="18"/>
         <Label  Foreground="{StaticResource LightTextBrush}" Content="Number of layers" HorizontalAlignment="Left" Margin="10,89,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
 
@@ -33,7 +33,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
                         <TextBlock x:Name="ItemText" Text="{Binding layerName}" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Stretch" FontFamily="Microsoft New Tai Lue" FontSize="16" Foreground="{StaticResource LightTextBrush}"/>
                         <TextBox x:Name="NeuronsNumber" Text="{Binding neurons}" Width="25" Margin="0,0,5,0" HorizontalAlignment="Right"></TextBox>
-                        <ComboBox SelectedIndex="0" Width="80"  HorizontalContentAlignment="Right" HorizontalAlignment="Right" Background="{x:Null}">
+                        <ComboBox SelectedIndex="{Binding selectedIndex}" Width="80"  HorizontalContentAlignment="Right" HorizontalAlignment="Right" Background="{x:Null}">
                             <ComboBoxItem Content="Sigmoid">
                             </ComboBoxItem>
                             <ComboBoxItem Content="ReLU">
@@ -48,7 +48,9 @@
         <Label  Foreground="{StaticResource LightTextBrush}" Content="Learning time" HorizontalAlignment="Left" Margin="10,187,0,0" Grid.Row="1" VerticalAlignment="Top" Width="199" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
         <TextBox Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="48" Margin="10,220,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" VerticalContentAlignment="Center" FontSize="18"/>
         <Label  Foreground="{StaticResource LightTextBrush}" Content="hours" HorizontalAlignment="Left" Margin="128,225,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" FontSize="16" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="43" VerticalContentAlignment="Center"/>
-        <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Create" HorizontalAlignment="Left" Height="48" Margin="294,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"/>
+        <Button x:Name="CreateNetworkButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Create" HorizontalAlignment="Left" Height="48" Margin="294,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14" Click="CreateNetworkButton_Click"/>
         <Button Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Start" HorizontalAlignment="Left" Height="48" Margin="530,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="learning rate" HorizontalAlignment="Left" Margin="499,17,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold"/>
+        <TextBox x:Name="LearningRateTextBox" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="48" Margin="499,50,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" VerticalContentAlignment="Center" FontSize="18"/>
     </Grid>
 </Page>

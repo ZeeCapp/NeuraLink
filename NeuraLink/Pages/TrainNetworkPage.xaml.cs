@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 using NeuralNetworks;
 
 namespace NeuraLink.Pages
@@ -23,6 +24,8 @@ namespace NeuraLink.Pages
     {
         private ListBox layerDisplay;
         private NeuralNetwork neuralNetwork;
+
+        public string selectedTrainingFile { get; private set; }
 
         public TrainNetworkPage()
         {
@@ -36,53 +39,86 @@ namespace NeuraLink.Pages
         {
             for(int l = 1; l <= neuralNetwork.Layers.Count; l++)
             {
-                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(),neuralNetwork.Layers[l-1].Neurons.Capacity));
+                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(),neuralNetwork.Layers[l-1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunc));
             }
         }
 
         private void UpdateLayersButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow window = (MainWindow)MainWindow.GetWindow(this);
-            neuralNetwork = window.neuralNetwork; 
-            
-            if(layerDisplay.Items.Count - 1 > int.Parse(LayersNumber.Text))
+            neuralNetwork = window.neuralNetwork;
+
+            if (layerDisplay.Items.Count - 1 > int.Parse(LayersNumber.Text))
             {
                 for (int position = layerDisplay.Items.Count - 1; position > int.Parse(LayersNumber.Text); position--)
                 {
                     layerDisplay.Items.RemoveAt(position);
                 }
             }
-            else if(layerDisplay.Items.Count-1 < int.Parse(LayersNumber.Text))
+            else if (layerDisplay.Items.Count - 1 < int.Parse(LayersNumber.Text))
             {
-                for (int position = layerDisplay.Items.Count-1; position < int.Parse(LayersNumber.Text); position++)
+                for (int position = layerDisplay.Items.Count - 1; position < int.Parse(LayersNumber.Text); position++)
                 {
-                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + (position + 1).ToString(),0));
+                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + (position + 1).ToString(), 0,ActivationFunctions.Sigmoid));
                 }
             }
-        }
-
-        private List<ListBoxItem> ConvertNetworkLayersToItems()
-        {
-            List<ListBoxItem> items = new List<ListBoxItem>();
-            ListBoxItem item;
-            foreach(Layer layer in neuralNetwork.Layers)
-            {
-                item = new ListBoxItem();
-            }
-
-            return items;
         }
 
         public class NetworkLayerDescriptor
         {
             public string layerName { get; set; }
             public int neurons { get; set; }
+            public int selectedIndex { get; set; }
 
-            public NetworkLayerDescriptor(string name,int neuronsNumber)
+            public NetworkLayerDescriptor(string name,int neuronsNumber, ActivationFunctions activationFunction)
             {
                 layerName = name;
                 neurons = neuronsNumber;
+                selectedIndex = (int)activationFunction;
             }
+        }
+
+        private void TrainingDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.CheckFileExists = true;
+            file.Multiselect = false;
+            file.Filter = "text files|*.txt|CSV files|*.csv";
+
+            if((bool)file.ShowDialog())
+            {
+                selectedTrainingFile = file.FileName;
+            }
+
+            if(selectedTrainingFile != null || selectedTrainingFile != string.Empty)
+            {
+                SelectedDataTextBlock.Text = selectedTrainingFile;
+            }
+        }
+
+        private void CreateNetworkButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow window = (MainWindow)MainWindow.GetWindow(this);
+            neuralNetwork = window.neuralNetwork;
+
+            //if there allready is a network, ask user to save it
+            if (neuralNetwork != null)
+            {
+
+            }
+
+
+            //if there isnt a neural network, generate a new one
+            List<int> layers = new List<int>();
+            List<ActivationFunctions> activationFunctions = new List<ActivationFunctions>();
+
+            for (int lay = 1; lay < layerDisplay.Items.Count; lay++)
+            {
+                layers.Add((layerDisplay.Items[lay] as NetworkLayerDescriptor).neurons);
+                activationFunctions.Add((ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), (layerDisplay.Items[lay] as NetworkLayerDescriptor).selectedIndex.ToString()));
+            }
+
+            window.neuralNetwork = new NeuralNetwork(layers.ToArray(), double.Parse(LearningRateTextBox.Text), 0.1, activationFunctions);
         }
     }
 }

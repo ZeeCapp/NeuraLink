@@ -13,7 +13,7 @@ namespace DataCollectionTesting
         {
             //TODO  add updating dendrites using an avarage of all updates over a given number of periods, add network loading function
 
-            Task vypisovac;
+            //Task vypisovac;
 
             List<ActivationFunctions> activFunc = new List<ActivationFunctions>() {
                 ActivationFunctions.Sigmoid,
@@ -22,7 +22,7 @@ namespace DataCollectionTesting
                 ActivationFunctions.Sigmoid
             };
 
-            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 5, 10, 5, 2 }, 1, 0.1, activFunc);
+            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 5, 10, 5, 2 }, 1, 0.1,activFunc);
 
             //List<double> traininset = new List<double>();
             //List<double> trainioutset = new List<double>();

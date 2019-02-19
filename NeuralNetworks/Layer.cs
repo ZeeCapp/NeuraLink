@@ -11,6 +11,7 @@ namespace NeuralNetworks
         public List<Neuron> Neurons { get; private set; }
         public Func<double,double> activationFunction;
         public Func<double,double> activationFunctionDerivative;
+        public ActivationFunctions activationFunc = new ActivationFunctions();
 
         /// <summary>
         /// Creates a new neural network layer with specified number of neurons
@@ -18,8 +19,9 @@ namespace NeuralNetworks
         /// </summary>
         /// <param name="neurons">Number of neurons in this layer</param>
         /// <param name="lastLayerNeurons">Number of neurons in the last layer</param>
-        public Layer(int neurons, int lastLayerNeurons)
+        public Layer(int neurons, int lastLayerNeurons, ActivationFunctions activationFunc)
         {
+            this.activationFunc = activationFunc;
             this.Neurons = new List<Neuron>();
             this.InitiateNeurons(neurons,lastLayerNeurons);
         }
