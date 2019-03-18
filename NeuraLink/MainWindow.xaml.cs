@@ -24,16 +24,18 @@ namespace NeuraLink
     public partial class MainWindow : Window
     {
         private Graph graph;
-        private RunNetworkPage currentRunPage = new RunNetworkPage();
-        private TrainNetworkPage currentTrainPage = new TrainNetworkPage();
+        private RunNetworkPage currentRunPage;
+        private TrainNetworkPage currentTrainPage;
         private ListBox layerDisplay;
 
         public NeuralNetwork neuralNetwork;
 
         public MainWindow()
         {
-            InitializeComponent();
             neuralNetwork = NeuralNetwork.LoadNetworkFromXML(@"E:\Download\Network.xml");
+            InitializeComponent();
+            currentRunPage = new RunNetworkPage();
+            currentTrainPage = new TrainNetworkPage(this);
         }
 
         private void TrainNetworkButton_Click(object sender, RoutedEventArgs e)

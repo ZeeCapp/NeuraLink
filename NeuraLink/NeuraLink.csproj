@@ -64,7 +64,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -146,7 +146,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="NeuraLink_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -163,6 +162,10 @@
     <Resource Include="Resources\logoNeuraLink.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataCollector\DataCollector.csproj">
+      <Project>{20f126b9-8242-46b2-978d-19af819d0be3}</Project>
+      <Name>DataCollector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetworks\NeuralNetworks.csproj">
       <Project>{c8f9cd1f-a5d8-448c-80cc-eef1ff0d7509}</Project>
       <Name>NeuralNetworks</Name>

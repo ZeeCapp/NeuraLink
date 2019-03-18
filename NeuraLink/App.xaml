@@ -12,6 +12,7 @@
         <SolidColorBrush x:Key="LightTextBrush" Color="{StaticResource LightTextColor}" Opacity="100"></SolidColorBrush>
         <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightTextColor}" Opacity="100"></SolidColorBrush>
         <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource DarkBackgroundColor}" Opacity="100"></SolidColorBrush>
+        <SolidColorBrush x:Key="SuperDarkBackgroundBrush" Color="#FF232323" Opacity="100"></SolidColorBrush>
 
         <Style TargetType="Button" x:Key="TopMenuButton">
             <Setter Property="Width" Value="220"></Setter>

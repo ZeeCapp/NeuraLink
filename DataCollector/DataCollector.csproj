@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Candle.cs" />
+    <Compile Include="CSVReader.cs" />
     <Compile Include="CurrencyDataHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -7,13 +7,17 @@ using System.Diagnostics;
 
 namespace NeuralNetworks
 {
+    // TODO: saving and loading layers activation functions
+
     public enum ActivationFunctions { Sigmoid, ReLU };
 
     public class NeuralNetwork
     {
         public List<Layer> Layers { get; private set; }
         public double AbsoluteError { get; private set; }
-        Stopwatch stopwatch;
+        public delegate void ErrorCallback(string message);
+
+        public object Lock = new object();
 
         private Task networkWeightsUpdaterTask;
         private Task<double> sumEffectOnOutputTask;
@@ -34,7 +38,6 @@ namespace NeuralNetworks
             this.selectedFunction = (int)activationFunction;
             this.learningRate = learningRate;
             InitiateNetwork(layers, bias, null);
-            stopwatch = new Stopwatch();     
         }
 
         private NeuralNetwork(List<Layer> layers)
@@ -44,17 +47,19 @@ namespace NeuralNetworks
 
         public NeuralNetwork(int[] layers, double learningRate, double bias, List<ActivationFunctions> activationFunctions)
         {
-            if(activationFunctions.Count != layers.Length-1)
-            {
-                throw new InvalidAFListException();
-            }
-
             this.Layers = new List<Layer>();
             this.learningRate = learningRate;
             InitiateNetwork(layers, bias, activationFunctions);
-            stopwatch = new Stopwatch();
         }
 
+
+        public double GetAbsoluteError()
+        {
+            lock(Lock)
+            {
+                return this.AbsoluteError;
+            }
+        }
 
         /// <summary>
         /// Forward propagates input values through the network.
@@ -121,7 +126,8 @@ namespace NeuralNetworks
         public void Train(
             List<double> inputValues,
             List<double> targetValues,
-            double targetError
+            double targetError,
+            ErrorCallback callback
             )
         {
             //BackpropCycleDoneEvent += UpdateNetworkWeights + callback;
@@ -137,7 +143,6 @@ namespace NeuralNetworks
 
                 do
                 {
-                    stopwatch.Start();
                     //if the network weights are updating, wait for the update to finish
                     if (networkWeightsUpdaterTask != null)
                     {
@@ -209,8 +214,10 @@ namespace NeuralNetworks
                     }
                     //start updating the network to new weight values
                     networkWeightsUpdaterTask = UpdateNetworkWeightsAsync();
+
+                    callback("Training...  -  current error : " + AbsoluteError.ToString() + "\n");
                 }
-                while (AbsoluteError > targetError || stopwatch.ElapsedMilliseconds < 5000);
+                while (AbsoluteError > targetError);
 
                 if (sumEffectOnOutputTask != null)
                 {
@@ -221,7 +228,7 @@ namespace NeuralNetworks
                 {
                     networkWeightsUpdaterTask.Wait();
                 }
-                stopwatch.Stop();
+
             }
         }
 
@@ -237,10 +244,11 @@ namespace NeuralNetworks
         public Task TrainAsync(
             List<double> inputValues,
             List<double> targetValues,
-            double targetError
+            double targetError,
+            ErrorCallback callback
             )
         {
-            return Task.Factory.StartNew(() => Train(inputValues, targetValues, targetError),TaskCreationOptions.LongRunning);
+            return Task.Factory.StartNew(() => Train(inputValues, targetValues, targetError,callback),TaskCreationOptions.LongRunning);
            // return Task.Run(() => Train(inputValues,targetValues,targetError));
         }
 
@@ -437,24 +445,22 @@ namespace NeuralNetworks
                         }
                         else
                         {
-                            this.Layers.Add(new Layer(layers[i], layers[i - 1], activationFunctions[i]));
+                                this.Layers.Add(new Layer(layers[i], layers[i - 1], activationFunctions[i]));
+                                if(activationFunctions[i] == ActivationFunctions.Sigmoid)
+                                {
+                                    Layers[i].SetAF(Sigmoid);
+                                    Layers[i].SetAFDerivative(SigmoidDerivate);
+                                }
+                                else if (activationFunctions[i] == ActivationFunctions.ReLU)
+                                {
+                                    Layers[i].SetAF(ReLU);
+                                    Layers[i].SetAFDerivative(ReLUDerivative);
+                                }
                         }
 
                         foreach (Neuron neuron in Layers[i].Neurons)
                         {
                             neuron.SetBias(bias);
-                        }
-
-                        switch (this.selectedFunction)
-                        {
-                            case 0:
-                                Layers[i].SetAF(Sigmoid);
-                                Layers[i].SetAFDerivative(SigmoidDerivate);
-                                break;
-                            case 1:
-                                Layers[i].SetAF(ReLU);
-                                Layers[i].SetAFDerivative(ReLUDerivative);
-                                break;
                         }
                     }
                 }

@@ -7,7 +7,12 @@
         xmlns:local="clr-namespace:NeuraLink"
         mc:Ignorable="d"
         Height="200" Width="700">
-    <Grid>
+    <Grid Background="{StaticResource SuperDarkBackgroundBrush}">
         
+        <DockPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="350" Margin="0,0,0,10">
+            <Button x:Name="cancelButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Cancel" HorizontalAlignment="left" Height="48" VerticalAlignment="Bottom" Width="121" FontWeight="Bold" FontSize="14" />
+            <Button x:Name="CreateButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Create" HorizontalAlignment="Right" Height="48" VerticalAlignment="Bottom" Width="121" FontWeight="Bold" FontSize="14" />
+        </DockPanel>
+        <TextBlock  Foreground="#FFE84444" Text="If you continue, the current neural network will be overriden without saving, please save the network before continuing." HorizontalAlignment="Center" Margin="0,15,0,0"  VerticalAlignment="Top" FontSize="16" FontFamily="Microsoft Tai Le" FontWeight="Bold" Width="600" Height="70" TextWrapping="Wrap" TextAlignment="Center"/>
     </Grid>
 </Window>

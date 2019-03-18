@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using NeuralNetworks;
+using DataCollector;
+using System.Threading;
 
 namespace NeuraLink.Pages
 {
@@ -24,28 +26,29 @@ namespace NeuraLink.Pages
     {
         private ListBox layerDisplay;
         private NeuralNetwork neuralNetwork;
+        MainWindow window;
 
         public string selectedTrainingFile { get; private set; }
 
-        public TrainNetworkPage()
+        public TrainNetworkPage(MainWindow parrent)
         {
             InitializeComponent();
             layerDisplay = (ListBox)this.FindName("LayersListBox");
-
+            window = parrent;
+            neuralNetwork = parrent.neuralNetwork;
             layerDisplay.Items.Add(new ListBoxItem());
         }
 
         public void UpdateLayerDisplay(NeuralNetwork neuralNetwork)
         {
-            for(int l = 1; l <= neuralNetwork.Layers.Count; l++)
+            for (int l = 1; l <= neuralNetwork.Layers.Count; l++)
             {
-                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(),neuralNetwork.Layers[l-1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunc));
+                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(), neuralNetwork.Layers[l - 1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunc));
             }
         }
 
         private void UpdateLayersButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = (MainWindow)MainWindow.GetWindow(this);
             neuralNetwork = window.neuralNetwork;
 
             if (layerDisplay.Items.Count - 1 > int.Parse(LayersNumber.Text))
@@ -59,7 +62,7 @@ namespace NeuraLink.Pages
             {
                 for (int position = layerDisplay.Items.Count - 1; position < int.Parse(LayersNumber.Text); position++)
                 {
-                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + (position + 1).ToString(), 0,ActivationFunctions.Sigmoid));
+                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + (position + 1).ToString(), 0, ActivationFunctions.Sigmoid));
                 }
             }
         }
@@ -70,7 +73,7 @@ namespace NeuraLink.Pages
             public int neurons { get; set; }
             public int selectedIndex { get; set; }
 
-            public NetworkLayerDescriptor(string name,int neuronsNumber, ActivationFunctions activationFunction)
+            public NetworkLayerDescriptor(string name, int neuronsNumber, ActivationFunctions activationFunction)
             {
                 layerName = name;
                 neurons = neuronsNumber;
@@ -83,14 +86,14 @@ namespace NeuraLink.Pages
             OpenFileDialog file = new OpenFileDialog();
             file.CheckFileExists = true;
             file.Multiselect = false;
-            file.Filter = "text files|*.txt|CSV files|*.csv";
+            file.Filter = ".txt|*.txt|.csv|*.csv";
 
-            if((bool)file.ShowDialog())
+            if ((bool)file.ShowDialog())
             {
                 selectedTrainingFile = file.FileName;
             }
 
-            if(selectedTrainingFile != null || selectedTrainingFile != string.Empty)
+            if (selectedTrainingFile != null || selectedTrainingFile != string.Empty)
             {
                 SelectedDataTextBlock.Text = selectedTrainingFile;
             }
@@ -98,13 +101,13 @@ namespace NeuraLink.Pages
 
         private void CreateNetworkButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow window = (MainWindow)MainWindow.GetWindow(this);
             neuralNetwork = window.neuralNetwork;
 
             //if there allready is a network, ask user to save it
             if (neuralNetwork != null)
             {
-
+                SaveWarning saveWarning = new SaveWarning();
+                saveWarning.ShowDialog();
             }
 
 
@@ -119,6 +122,38 @@ namespace NeuraLink.Pages
             }
 
             window.neuralNetwork = new NeuralNetwork(layers.ToArray(), double.Parse(LearningRateTextBox.Text), 0.1, activationFunctions);
+            this.neuralNetwork = window.neuralNetwork;
+
+            consoleTextBox.AppendText("Network succesfully created ! \n");
         }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<double> inputValues = new List<double>();
+            List<double> outputValues = new List<double>();
+
+            List<string> readData = CSVReader.ReadCSVFile(selectedTrainingFile);
+
+            for (int line = 0; line < readData.Count; line++)
+            {
+                string[] splitData = readData[line].Split(',');
+
+                for (int data = 0; data < splitData.Length; data++)
+                {
+                    if (data < neuralNetwork.Layers[0].Neurons.Count)
+                        inputValues.Add(double.Parse(splitData[data]));
+                    else
+                        outputValues.Add(double.Parse(splitData[data]));
+                }
+            }
+            //TODO: Create callback for vypisovani
+            Task networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), WriteConsoleMessage);
+        }
+
+        private void WriteConsoleMessage(string message)
+        {
+            consoleTextBox.AppendText(message);
+        }
+    
     }
 }
