@@ -215,7 +215,7 @@ namespace NeuralNetworks
                     //start updating the network to new weight values
                     networkWeightsUpdaterTask = UpdateNetworkWeightsAsync();
 
-                    callback("Training...  -  current error : " + AbsoluteError.ToString() + "\n");
+                    callback?.Invoke("Training...  -  current error : " + AbsoluteError.ToString() + "\n");
                 }
                 while (AbsoluteError > targetError);
 
@@ -318,9 +318,11 @@ namespace NeuralNetworks
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("NeuralNetwork");
+                writer.WriteAttributeString("learningRate", network.learningRate.ToString());
                 foreach (Layer layer in network.Layers)
                 {
                     writer.WriteStartElement("Layer");
+                    writer.WriteAttributeString("activationFunction", layer.activationFunc.ToString());
                     foreach (Neuron neuron in layer.Neurons)
                     {
                         writer.WriteStartElement("Neuron");
@@ -389,7 +391,12 @@ namespace NeuralNetworks
 
         private double ReLUDerivative(double x)
         {
-            return Math.Max(0, 1);
+            double reluDerivative = 0;
+
+            if (x > 0)
+                reluDerivative = 1;
+
+            return reluDerivative;
         }
 
         private double CostFunction(double target,double actual)
