@@ -46,10 +46,10 @@ namespace DataCollectionTesting
                 ActivationFunctions.ReLU
             };
 
-            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 5, 1 }, 0.01, 0.1, activFunc);
+            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 5, 1 }, 0.01, activFunc);
             NeuralNetwork.SaveNetworkAsXML(@"C:\Users\ZeeCaptain\Desktop\network.xml", neuralNetwork);
 
-            Task networkTrainer = neuralNetwork.TrainAsync(traininset, trainioutset, 0.0001, null);
+            Task networkTrainer = neuralNetwork.TrainAsync(traininset, trainioutset, 0.0001);
             Console.WriteLine("Training ...");
 
             Stopwatch watch = new Stopwatch();
@@ -69,7 +69,7 @@ namespace DataCollectionTesting
             Console.WriteLine("Current error : " + neuralNetwork.AbsoluteError);
             Console.WriteLine("Done !   Training time - " + watch.Elapsed.ToString());
 
-            List<double> output = neuralNetwork.Run(new List<double>{1,4 });
+            List<double> output = neuralNetwork.Run(new List<double>(){1,4 }));
             Console.WriteLine("{0}", output[0].ToString());
 
             Console.ReadKey();

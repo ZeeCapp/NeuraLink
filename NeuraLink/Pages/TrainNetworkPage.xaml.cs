@@ -121,7 +121,7 @@ namespace NeuraLink.Pages
                 activationFunctions.Add((ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), (layerDisplay.Items[lay] as NetworkLayerDescriptor).selectedIndex.ToString()));
             }
 
-            window.neuralNetwork = new NeuralNetwork(layers.ToArray(), double.Parse(LearningRateTextBox.Text), 0.1, activationFunctions);
+            window.neuralNetwork = new NeuralNetwork(layers.ToArray(), double.Parse(LearningRateTextBox.Text), activationFunctions);
             this.neuralNetwork = window.neuralNetwork;
 
             consoleTextBox.AppendText("Network succesfully created ! \n");
@@ -147,7 +147,7 @@ namespace NeuraLink.Pages
                 }
             }
             //TODO: Create callback for vypisovani
-            Task networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), WriteConsoleMessage);
+            Task networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text));
         }
 
         private void WriteConsoleMessage(string message)

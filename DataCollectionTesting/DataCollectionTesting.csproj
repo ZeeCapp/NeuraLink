@@ -66,13 +66,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\source\repos\NeuralNetworks\NeuralNetworks\NeuralNetworks.csproj">
+      <Project>{061e9dc4-27dc-4e3f-8e5c-a8c51d183d3d}</Project>
+      <Name>NeuralNetworks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataCollector\DataCollector.csproj">
       <Project>{20f126b9-8242-46b2-978d-19af819d0be3}</Project>
       <Name>DataCollector</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeuralNetworks\NeuralNetworks.csproj">
-      <Project>{c8f9cd1f-a5d8-448c-80cc-eef1ff0d7509}</Project>
-      <Name>NeuralNetworks</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
