@@ -43,7 +43,7 @@ namespace NeuraLink.Pages
         {
             for (int l = 1; l <= neuralNetwork.Layers.Count; l++)
             {
-                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(), neuralNetwork.Layers[l - 1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunc));
+                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(), neuralNetwork.Layers[l - 1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunction));
             }
         }
 

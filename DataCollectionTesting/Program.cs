@@ -23,33 +23,22 @@ namespace DataCollectionTesting
                 int num2 = rnd.Next(0, 9);
                 traininset.Add(num2);
 
-                for (int o = 0; o < 18; o++)
-                {
-                    if (o < num1 + num2)
-                    {
-                        trainioutset.Add(1);
-                    }
-                    else
-                    {
-                        trainioutset.Add(0);
-                    }
-                }
+                trainioutset.Add(num1 + num2);
             }
 
             Task vypisovac;
 
             List<ActivationFunctions> activFunc = new List<ActivationFunctions>() {
-                ActivationFunctions.Sigmoid,
                 ActivationFunctions.ReLU,
-                ActivationFunctions.Sigmoid,
-                ActivationFunctions.Sigmoid,
+                ActivationFunctions.ReLU,
+                ActivationFunctions.ReLU,
                 ActivationFunctions.ReLU
             };
 
-            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 5, 1 }, 0.01, activFunc);
-            NeuralNetwork.SaveNetworkAsXML(@"C:\Users\ZeeCaptain\Desktop\network.xml", neuralNetwork);
+            NeuralNetwork neuralNetwork = new NeuralNetwork(new int[] { 2, 10, 10, 1 }, 0.0001, activFunc);
+            neuralNetwork.SaveNetworkAsXML(@"C:\Users\ZeeCaptain\Desktop\network.xml");
 
-            Task networkTrainer = neuralNetwork.TrainAsync(traininset, trainioutset, 0.0001);
+            Task networkTrainer = neuralNetwork.TrainAsync(traininset, trainioutset, 0.000001);
             Console.WriteLine("Training ...");
 
             Stopwatch watch = new Stopwatch();
@@ -69,7 +58,7 @@ namespace DataCollectionTesting
             Console.WriteLine("Current error : " + neuralNetwork.AbsoluteError);
             Console.WriteLine("Done !   Training time - " + watch.Elapsed.ToString());
 
-            List<double> output = neuralNetwork.Run(new List<double>(){1,4 }));
+            List<double> output = neuralNetwork.Run(new List<double>(){1,4 });
             Console.WriteLine("{0}", output[0].ToString());
 
             Console.ReadKey();
