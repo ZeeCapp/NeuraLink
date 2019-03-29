@@ -19,9 +19,23 @@ namespace NeuraLink
     /// </summary>
     public partial class SaveWarning : Window
     {
+        public bool OverrideNetwork { get; private set; }
+
         public SaveWarning()
         {
             InitializeComponent();
+            OverrideNetwork = false;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            OverrideNetwork = true;
+            this.Close();
         }
     }
 }

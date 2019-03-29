@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollector", "DataCollec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuraLink", "NeuraLink\NeuraLink.csproj", "{E61E9AF5-A9B9-4DCC-9164-DABE83B8AD41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworksOld", "NeuralNetworksOld\NeuralNetworksOld.csproj", "{C8F9CD1F-A5D8-448C-80CC-EEF1FF0D7509}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworks", "NeuralNetworks\NeuralNetworks.csproj", "{2DDA84C3-B8C4-4CCC-91DC-32421BE778BD}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{E61E9AF5-A9B9-4DCC-9164-DABE83B8AD41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E61E9AF5-A9B9-4DCC-9164-DABE83B8AD41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E61E9AF5-A9B9-4DCC-9164-DABE83B8AD41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8F9CD1F-A5D8-448C-80CC-EEF1FF0D7509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8F9CD1F-A5D8-448C-80CC-EEF1FF0D7509}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8F9CD1F-A5D8-448C-80CC-EEF1FF0D7509}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8F9CD1F-A5D8-448C-80CC-EEF1FF0D7509}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DDA84C3-B8C4-4CCC-91DC-32421BE778BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DDA84C3-B8C4-4CCC-91DC-32421BE778BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DDA84C3-B8C4-4CCC-91DC-32421BE778BD}.Release|Any CPU.ActiveCfg = Release|Any CPU

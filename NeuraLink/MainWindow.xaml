@@ -18,8 +18,8 @@
             <ColumnDefinition Width="220"/>
             <ColumnDefinition Width="31*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="TrainNetworkButton" Style="{StaticResource TopMenuButton}" Content="train network" Grid.Row="1" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" Click="TrainNetworkButton_Click" ></Button>
-        <Button x:Name="RunNetworkButton" Style="{StaticResource MenuButton}" Content="run network" Grid.Row="2" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" BorderBrush="#FF373737"  Click="RunNetworkButton_Click" />
+        <Button x:Name="TrainNetworkButton" Style="{StaticResource TopMenuButton}" Content="create and train" Grid.Row="1" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" Click="TrainNetworkButton_Click" ></Button>
+        <Button x:Name="RunNetworkButton" Style="{StaticResource MenuButton}" Content="run" Grid.Row="2" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" BorderBrush="#FF373737"  Click="RunNetworkButton_Click" />
         <Image x:Name="image" Height="135" Width="220" Source="Resources/logoNeuraLink.png" Grid.Row="0" Grid.Column="0" Margin="32 0 0 0">
             <Image.OpacityMask>
                 <ImageBrush ImageSource="Resources/logoNeuraLink.png" Stretch="Uniform"/>

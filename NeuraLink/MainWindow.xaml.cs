@@ -32,7 +32,6 @@ namespace NeuraLink
 
         public MainWindow()
         {
-            neuralNetwork = NeuralNetwork.LoadNetworkFromXML(@"E:\Download\Network.xml");
             InitializeComponent();
             currentRunPage = new RunNetworkPage();
             currentTrainPage = new TrainNetworkPage(this);

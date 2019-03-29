@@ -23,10 +23,10 @@
             <RowDefinition Height="300"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="consoleTextBox"
+        <!--<TextBox x:Name="consoleTextBox"
                  Style="{StaticResource ConsoleStyle}" Grid.ColumnSpan="3" FontSize="16"
                  
-                 />
+                 />-->
 
         <Button x:Name="TrainingDataButton"  Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select training data" HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="191" FontWeight="Bold" FontSize="14" Click="TrainingDataButton_Click"/>
         <TextBlock x:Name="SelectedDataTextBlock" Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Left" Text="No data selected ..." Height="21" Margin="10,63,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" FontSize="14" FontFamily="Microsoft New Tai Lue" Padding="5,0,0,0"/>
@@ -52,7 +52,7 @@
 
         <Button x:Name="UpdateLayersButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Update" HorizontalAlignment="Left" Margin="128,122,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" Height="48" FontFamily="Microsoft New Tai Lue" FontWeight="Bold" Click="UpdateLayersButton_Click" FontSize="14"/>
         <Label  Foreground="{StaticResource LightTextBrush}" Content="Learning time" HorizontalAlignment="Center" Margin="49,100,34,0" Grid.Row="1" VerticalAlignment="Top" Width="150" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33" Grid.Column="2"/>
-        <TextBox Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Center" Height="48" Margin="49,133,72,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" VerticalContentAlignment="Center" FontSize="18" Grid.Column="2"/>
+        <TextBox x:Name="LearningTimeTextBox" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Center" Height="48" Margin="49,133,72,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="112" VerticalContentAlignment="Center" FontSize="18" Grid.Column="2" Text="00:00:00"/>
         <Label  Foreground="{StaticResource LightTextBrush}" Content="hours" HorizontalAlignment="Center" Margin="160,133,0,0" Grid.Row="1" VerticalAlignment="Top" Width="73" FontSize="16" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="48" VerticalContentAlignment="Center" Grid.Column="2"/>
         <Button x:Name="CreateNetworkButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Create" HorizontalAlignment="Center" Height="48" Margin="0,0,0,20" Grid.Row="1" VerticalAlignment="Bottom" Width="121" FontWeight="Bold" FontSize="14" Click="CreateNetworkButton_Click" Grid.Column="1"/>
         <Button x:Name="startButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Start" HorizontalAlignment="Center" Height="48" Margin="0,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14" Grid.Column="2" Click="StartButton_Click"/>

@@ -20,9 +20,10 @@ namespace NeuralNetworks
             Neurons = new List<Neuron>(numNeurons);
         }
 
-        public Layer(List<Neuron> neurons)
+        public Layer(List<Neuron> neurons, ActivationFunctions activationFunction)
         {
             this.Neurons = neurons;
+            this.activationFunction = activationFunction;
         }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using NeuralNetworks;
 using DataCollector;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace NeuraLink.Pages
 {
@@ -27,6 +28,7 @@ namespace NeuraLink.Pages
         private ListBox layerDisplay;
         private NeuralNetwork neuralNetwork;
         MainWindow window;
+        TextBox consoleTextBox;
 
         public string selectedTrainingFile { get; private set; }
 
@@ -37,13 +39,19 @@ namespace NeuraLink.Pages
             window = parrent;
             neuralNetwork = parrent.neuralNetwork;
             layerDisplay.Items.Add(new ListBoxItem());
+            this.consoleTextBox = new TextBox();
+            consoleTextBox.Style = (Style)Application.Current.Resources["ConsoleStyle"];
+            ((Grid)this.FindName("TrainNetworkPageGrid")).Children.Add(consoleTextBox);
         }
 
         public void UpdateLayerDisplay(NeuralNetwork neuralNetwork)
         {
-            for (int l = 1; l <= neuralNetwork.Layers.Count; l++)
+            if (neuralNetwork != null)
             {
-                layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(), neuralNetwork.Layers[l - 1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunction));
+                for (int l = 1; l <= neuralNetwork.Layers.Count; l++)
+                {
+                    layerDisplay.Items.Add(new NetworkLayerDescriptor("Layer " + l.ToString(), neuralNetwork.Layers[l - 1].Neurons.Count, neuralNetwork.Layers[l - 1].activationFunction));
+                }
             }
         }
 
@@ -101,36 +109,76 @@ namespace NeuraLink.Pages
 
         private void CreateNetworkButton_Click(object sender, RoutedEventArgs e)
         {
-            neuralNetwork = window.neuralNetwork;
-
-            //if there allready is a network, ask user to save it
-            if (neuralNetwork != null)
+            //check if learning rate is set
+            double learningRate;
+            if (!Double.TryParse(LearningRateTextBox.Text, out learningRate))
             {
-                SaveWarning saveWarning = new SaveWarning();
-                saveWarning.ShowDialog();
+                consoleTextBox.AppendText("Learning rate must be set and must be in a correct format (x,xxx) ! \n");
+                return;
             }
-
-
-            //if there isnt a neural network, generate a new one
-            List<int> layers = new List<int>();
-            List<ActivationFunctions> activationFunctions = new List<ActivationFunctions>();
 
             for (int lay = 1; lay < layerDisplay.Items.Count; lay++)
             {
-                layers.Add((layerDisplay.Items[lay] as NetworkLayerDescriptor).neurons);
-                activationFunctions.Add((ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), (layerDisplay.Items[lay] as NetworkLayerDescriptor).selectedIndex.ToString()));
+                if ((layerDisplay.Items[lay] as NetworkLayerDescriptor).neurons == 0)
+                {
+                    consoleTextBox.AppendText("Network´s layer cant have 0 neurons ! \n");
+                    return;
+                }
             }
 
-            window.neuralNetwork = new NeuralNetwork(layers.ToArray(), double.Parse(LearningRateTextBox.Text), activationFunctions);
-            this.neuralNetwork = window.neuralNetwork;
+                neuralNetwork = window.neuralNetwork;
+            SaveWarning saveWarning;
 
-            consoleTextBox.AppendText("Network succesfully created ! \n");
+            //if there allready is a network, ask user to save it
+            if (neuralNetwork != null)
+            {                
+                saveWarning = new SaveWarning();
+                saveWarning.ShowDialog();
+
+                if (saveWarning.OverrideNetwork)
+                {
+                    List<int> layers = new List<int>();
+                    List<ActivationFunctions> activationFunctions = new List<ActivationFunctions>();
+
+                    for (int lay = 1; lay < layerDisplay.Items.Count; lay++)
+                    {
+                        layers.Add((layerDisplay.Items[lay] as NetworkLayerDescriptor).neurons);
+                        activationFunctions.Add((ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), (layerDisplay.Items[lay] as NetworkLayerDescriptor).selectedIndex.ToString()));
+                    }
+
+                    window.neuralNetwork = new NeuralNetwork(layers.ToArray(), learningRate, activationFunctions);
+                    this.neuralNetwork = window.neuralNetwork;
+
+                    consoleTextBox.AppendText("Network succesfully created ! \n");
+                }
+                else
+                {
+                    consoleTextBox.AppendText("Creation canceled \n");
+                }
+            }
+            //if there is no network, create a new one
+            else
+            {
+                List<int> layers = new List<int>();
+                List<ActivationFunctions> activationFunctions = new List<ActivationFunctions>();
+
+                for (int lay = 1; lay < layerDisplay.Items.Count; lay++)
+                {
+                    layers.Add((layerDisplay.Items[lay] as NetworkLayerDescriptor).neurons);
+                    activationFunctions.Add((ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), (layerDisplay.Items[lay] as NetworkLayerDescriptor).selectedIndex.ToString()));
+                }
+
+                window.neuralNetwork = new NeuralNetwork(layers.ToArray(), learningRate, activationFunctions);
+                this.neuralNetwork = window.neuralNetwork;
+
+                consoleTextBox.AppendText("Network succesfully created ! \n");
+            }
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             List<double> inputValues = new List<double>();
-            List<double> outputValues = new List<double>();
+            List<double> outputValues = new List<double>();           
 
             List<string> readData = CSVReader.ReadCSVFile(selectedTrainingFile);
 
@@ -146,14 +194,34 @@ namespace NeuraLink.Pages
                         outputValues.Add(double.Parse(splitData[data]));
                 }
             }
-            //TODO: Create callback for vypisovani
-            Task networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text));
-        }
 
-        private void WriteConsoleMessage(string message)
-        {
-            consoleTextBox.AppendText(message);
+            Task networkTrainer;
+            TimeSpan span = TimeSpan.Parse(LearningTimeTextBox.Text);
+
+            if (span.TotalMilliseconds >= 0)
+            {
+                networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), span);               
+            }
+            else
+            {
+                networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text));
+            }
+
+            Task errorDisplayer = Task.Factory.StartNew(async () =>
+            {
+                while(networkTrainer.Status != TaskStatus.Canceled || networkTrainer.Status != TaskStatus.Faulted || networkTrainer.Status != TaskStatus.RanToCompletion)
+                {
+                    if (neuralNetwork.AbsoluteError != 0)
+                    {
+                        this.Dispatcher.Invoke(()=> {
+                            consoleTextBox.AppendText("Training...   current error: " + neuralNetwork.AbsoluteError.ToString() + "      Elapsed: " + neuralNetwork.elapsed.TotalMilliseconds + " milliseconds" + Environment.NewLine);
+                            consoleTextBox.ScrollToEnd();
+                        });                     
+                    }
+
+                    await Task.Delay(300);
+                }
+            });
         }
-    
     }
 }
