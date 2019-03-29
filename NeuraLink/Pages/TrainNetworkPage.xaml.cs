@@ -46,7 +46,7 @@ namespace NeuraLink.Pages
 
         public void UpdateLayerDisplay(NeuralNetwork neuralNetwork)
         {
-            if (neuralNetwork != null)
+            if (neuralNetwork != null && layerDisplay.Items.Count-1 != neuralNetwork.Layers.Count)
             {
                 for (int l = 1; l <= neuralNetwork.Layers.Count; l++)
                 {

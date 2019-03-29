@@ -10,12 +10,30 @@
       d:DesignHeight="600" d:DesignWidth="800"
       Title="NetworkPlain">
     <Grid Background="#FF232323" x:Name="GraphContainer">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <CustomControls:Graph VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" x:Name="DataGraph" MinHeight="450" GraphColor="#c8c8c8"></CustomControls:Graph>
-        <!--<Canvas Background="#FF232323" x:Name="DataGraph" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="450" Grid.Row="0">
-        </Canvas>-->
+        <DataGrid x:Name="OutputsDataGrid" Margin="10" ItemsSource="{Binding Output}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource LightBackgroundBrush}" BorderBrush="{StaticResource LightBorderBrush}" Grid.ColumnSpan="3"/>
+        <Button x:Name="runButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Run" HorizontalAlignment="Center" Height="48" Grid.Row="1" VerticalAlignment="Center" Width="121" FontWeight="Bold" FontSize="14" Grid.Column="2" Click="RunButton_Click"/>
+        <Button x:Name="SelectDataButton"  Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Select input data" HorizontalAlignment="Center" Height="48"  VerticalAlignment="Center" Width="191" FontWeight="Bold" FontSize="14" Grid.Row="1" Click="SelectDataButton_Click" />
+        <TextBlock x:Name="SelectedDataTextBlock" Foreground="{StaticResource LightTextBrush}" HorizontalAlignment="Center" Text="No data selected ..." Margin="0,80,0,0" Height="21" TextWrapping="Wrap" VerticalAlignment="Center" Width="240" FontSize="14" FontFamily="Microsoft New Tai Lue" Padding="5,0,0,0" Grid.Row="1"/>
+        <ListBox x:Name="InputListBox" Background="{StaticResource LightBackgroundBrush}"  HorizontalAlignment="Stretch" Margin="10,35,10,10" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                        <TextBlock x:Name="NeuronName" Text="{Binding Name}" Width="150" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Stretch" FontFamily="Microsoft New Tai Lue" FontSize="16" Foreground="{StaticResource LightTextBrush}"/>
+                        <TextBox x:Name="InputValue" Text="{Binding Value}" Width="40" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Manual input:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33" Grid.Column="1" Grid.Row="1"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Input file (.csv  .txt):" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33" Grid.Row="1"/>
     </Grid>
 </Page>

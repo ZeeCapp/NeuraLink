@@ -26,6 +26,7 @@ namespace NeuraLink
         private Graph graph;
         private RunNetworkPage currentRunPage;
         private TrainNetworkPage currentTrainPage;
+        private SaveNetworkPage currentSavePage;
         private ListBox layerDisplay;
 
         public NeuralNetwork neuralNetwork;
@@ -33,8 +34,9 @@ namespace NeuraLink
         public MainWindow()
         {
             InitializeComponent();
-            currentRunPage = new RunNetworkPage();
+            currentRunPage = new RunNetworkPage(this);
             currentTrainPage = new TrainNetworkPage(this);
+            currentSavePage = new SaveNetworkPage();
         }
 
         private void TrainNetworkButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +55,6 @@ namespace NeuraLink
 
             MainFrame.Content = currentRunPage;
             graph = (Graph)MainFrame.FindName("DataGraph");
-            //MainFrame.Content = new RunNetworkPageLogic(MainFrame.ActualWidth, MainFrame.ActualHeight, new List<double> { 1,2,3,2,5,6,9,1,2});
             TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
             RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
         }
@@ -71,16 +72,13 @@ namespace NeuraLink
                     graph.CurrentData = new List<double> { 1, 4, 2, 8, 7, 2 };
                 }
             }
+        }
 
-            //if (content is RunNetworkPageLogic)
-            //{
-            //    graph = (RunNetworkPageLogic)content;
-            //}
+        private void SaveNetworkButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = null;
 
-            //if (graph != null)
-            //{
-            //    graph.UpdateGraph(MainFrame.ActualWidth);
-            //}
+            MainFrame.Content = currentSavePage;
         }
     }
 }
