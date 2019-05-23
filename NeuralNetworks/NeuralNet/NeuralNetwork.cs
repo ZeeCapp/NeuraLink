@@ -55,7 +55,7 @@ namespace NeuralNetworks
             }
         }
 
-        private NeuralNetwork(List<Layer> layers, double learningRate)
+        public NeuralNetwork(List<Layer> layers, double learningRate)
         {
             this.Layers = layers;
             this.LearningRate = learningRate;
@@ -124,6 +124,96 @@ namespace NeuralNetworks
                output.Add(last.Neurons[i].Value);
 
             return output;
+        }
+
+        public bool Train(List<double> input, List<double> output, TimeSpan learningTime)
+        {
+            if ((input.Count % this.Layers[0].Neurons.Count) != 0 || (input.Count % this.Layers[this.Layers.Count - 1].Neurons.Count) != 0) return false;
+
+            int itteration = 0;
+
+            Stopwatch clock = new Stopwatch();
+            clock.Start();
+
+            do
+            {
+                List<double> currentInput = input.GetRange(itteration * this.Layers[0].Neurons.Count, this.Layers[0].Neurons.Count);
+                List<double> currentOutput = output.GetRange(itteration * this.Layers[this.Layers.Count - 1].Neurons.Count, this.Layers[this.Layers.Count - 1].Neurons.Count);
+                Run(currentInput);
+
+                for (int i = 0; i < this.Layers[this.Layers.Count - 1].Neurons.Count; i++)
+                {
+                    Neuron neuron = this.Layers[this.Layers.Count - 1].Neurons[i];
+
+                    switch (Layers[this.Layers.Count - 1].activationFunction)
+                    {
+                        case ActivationFunctions.Sigmoid:
+                            neuron.Delta = (currentOutput[i] - neuron.Value);
+                            break;
+
+                        case ActivationFunctions.ReLU:
+                            neuron.Delta = (currentOutput[i] - neuron.Value);
+                            break;
+                    }
+
+                    for (int j = this.Layers.Count - 2; j >= 1; j--)
+                    {
+                        for (int k = 0; k < this.Layers[j].Neurons.Count; k++)
+                        {
+                            Neuron n = this.Layers[j].Neurons[k];
+
+                            switch (Layers[j].activationFunction)
+                            {
+                                case ActivationFunctions.Sigmoid:
+                                    n.Delta = SigmoidDerivative(n.Value) *
+                                      this.Layers[j + 1].Neurons[i].Dendrites[k].Weight *
+                                      this.Layers[j + 1].Neurons[i].Delta;
+                                    break;
+
+                                case ActivationFunctions.ReLU:
+                                    n.Delta = ReLUDerivative(n.Value) *
+                                      this.Layers[j + 1].Neurons[i].Dendrites[k].Weight *
+                                      this.Layers[j + 1].Neurons[i].Delta;
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                for (int i = this.Layers.Count - 1; i > 1; i--)
+                {
+                    for (int j = 0; j < this.Layers[i].Neurons.Count; j++)
+                    {
+                        Neuron n = this.Layers[i].Neurons[j];
+                        n.Bias = n.Bias + (this.LearningRate * n.Delta);
+
+                        for (int k = 0; k < n.Dendrites.Count; k++)
+                            n.Dendrites[k].Weight = n.Dendrites[k].Weight + (this.LearningRate * this.Layers[i - 1].Neurons[k].Value * n.Delta);
+                    }
+                }
+
+                AbsoluteError = 0;
+                for (int n = 0; n < this.Layers[Layers.Count - 1].Neurons.Count; n++)
+                {
+                    AbsoluteError += Math.Abs(currentOutput[n] - Layers[Layers.Count - 1].Neurons[n].Value);
+                }
+
+
+                if ((itteration + 1) * this.Layers[0].Neurons.Count > input.Count - 1)
+                {
+                    itteration = 0;
+                }
+                else
+                    itteration++;
+
+                elapsed = clock.Elapsed;
+            }
+            while (clock.Elapsed < learningTime); //end of main cycle
+
+            clock.Stop();
+            elapsed = clock.Elapsed;
+
+            return true;
         }
 
         public bool Train(List<double> input, List<double> output, double target, TimeSpan learningTime)
@@ -314,6 +404,11 @@ namespace NeuralNetworks
         public Task TrainAsync(List<double> input, List<double> output, double target, TimeSpan learningTime)
         {
             return Task.Factory.StartNew(() => Train(input, output, target,learningTime));
+        }
+
+        public Task TrainAsync(List<double> input, List<double> output, TimeSpan learningTime)
+        {
+            return Task.Factory.StartNew(() => Train(input, output, learningTime));
         }
 
         public void SaveNetworkAsXML(string path)

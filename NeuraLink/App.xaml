@@ -126,7 +126,7 @@
             </Setter>
         </Style>
 
-        
+
         <Style TargetType="TextBox" x:Key="omegalul">
             <Setter Property="Template">
                 <Setter.Value>

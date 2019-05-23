@@ -57,7 +57,14 @@ namespace NeuraLink.Pages
 
         private void UpdateLayersButton_Click(object sender, RoutedEventArgs e)
         {
+            int layersCount = 0;
             neuralNetwork = window.neuralNetwork;
+
+            if (!int.TryParse(LayersNumber.Text, out layersCount))
+            {
+                consoleTextBox.AppendText("Invalid layers count ! \n");
+                return;
+            }
 
             if (layerDisplay.Items.Count - 1 > int.Parse(LayersNumber.Text))
             {
@@ -177,6 +184,8 @@ namespace NeuraLink.Pages
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            this.neuralNetwork = window.neuralNetwork;
+
             if (selectedTrainingFile == null || selectedTrainingFile == string.Empty)
             {
                 consoleTextBox.AppendText("No training data selected !\n");
@@ -189,28 +198,53 @@ namespace NeuraLink.Pages
                 return;
             }
 
+            double buffer;
+            TimeSpan timespanBuffer;
+
+            if(errorTargetTextBox.Text == string.Empty && !TimeSpan.TryParse(LearningTimeTextBox.Text,out timespanBuffer)
+                || errorTargetTextBox.Text == string.Empty && TimeSpan.Parse(LearningTimeTextBox.Text) == TimeSpan.Zero ||
+                !Double.TryParse(errorTargetTextBox.Text,out buffer) && TimeSpan.Parse(LearningTimeTextBox.Text) == TimeSpan.Zero ||
+                !Double.TryParse(errorTargetTextBox.Text, out buffer) && !TimeSpan.TryParse(LearningTimeTextBox.Text, out timespanBuffer))
+            {
+                consoleTextBox.AppendText("Invalid error target !\n");
+                return;
+            }
+
+
             List<double> inputValues = new List<double>();
             List<double> outputValues = new List<double>();
 
-            List<string> readData = CSVReader.ReadCSVFile(selectedTrainingFile);
-
-            for (int line = 0; line < readData.Count; line++)
+            try
             {
-                string[] splitData = readData[line].Split(',');
+                List<string> readData = CSVReader.ReadCSVFile(selectedTrainingFile);
 
-                for (int data = 0; data < splitData.Length; data++)
+                for (int line = 0; line < readData.Count; line++)
                 {
-                    if (data < neuralNetwork.Layers[0].Neurons.Count)
-                        inputValues.Add(double.Parse(splitData[data]));
-                    else
-                        outputValues.Add(double.Parse(splitData[data]));
+                    string[] splitData = readData[line].Split(',');
+
+                    for (int data = 0; data < splitData.Length; data++)
+                    {
+                        if (data < neuralNetwork.Layers[0].Neurons.Count)
+                            inputValues.Add(double.Parse(splitData[data]));
+                        else
+                            outputValues.Add(double.Parse(splitData[data]));
+                    }
                 }
+            }
+            catch(Exception exc)
+            {
+                consoleTextBox.AppendText("Invalid training data !");
+                return;
             }
 
             Task networkTrainer;
             TimeSpan span = TimeSpan.Parse(LearningTimeTextBox.Text);
 
-            if (span.TotalMilliseconds >= 0)
+            if(errorTargetTextBox.Text == string.Empty && span.TotalMilliseconds >= 0)
+            {
+                networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, span);
+            }
+            else if (span.TotalMilliseconds >= 0)
             {
                 networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), span);
             }
@@ -221,7 +255,11 @@ namespace NeuraLink.Pages
 
             Task errorDisplayer = Task.Factory.StartNew(async () =>
             {
-                while (networkTrainer.Status != TaskStatus.Canceled || networkTrainer.Status != TaskStatus.Faulted || networkTrainer.Status != TaskStatus.RanToCompletion)
+                while (networkTrainer.Status == TaskStatus.WaitingToRun
+                || networkTrainer.Status == TaskStatus.WaitingForActivation
+                || networkTrainer.Status == TaskStatus.WaitingForChildrenToComplete
+                || networkTrainer.Status == TaskStatus.Running
+                || networkTrainer.Status == TaskStatus.Created)
                 {
                     if (neuralNetwork.AbsoluteError != 0)
                     {

@@ -49,6 +49,7 @@ namespace NeuraLink.Pages
                 browser.Filter = "XML (.xml)|*.xml";
                 browser.ShowDialog();
 
+                mainWindow.neuralNetwork.Name = NameTextBox.Text;
                 mainWindow.neuralNetwork.SaveNetworkAsXML(browser.FileName);
             }
         }
@@ -99,14 +100,25 @@ namespace NeuraLink.Pages
 
             MySqlConnection database = new MySqlConnection(connString);
 
+            //check if database contains necessary tables
             try
             {
                 database.Open();
+            }
+            catch(Exception exc)
+            {
+                if (exc.Message.ToLower().Contains("unknown database"))
+                    GenerateDatabase(connectionWindow.Address, connectionWindow.Username, connectionWindow.Password, connectionWindow.Database);
+            }
+
+            try
+            {
+                if(database.State == System.Data.ConnectionState.Closed)
+                    database.Open();
 
                 string cmdText = "";
                 MySqlCommand cmd = new MySqlCommand(null,database);
                 MySqlDataReader reader;
-
 
                 cmd.CommandText = "select * from NeuralNetwork where Name = \"" + mainWindow.neuralNetwork.Name + "\"";
                 reader = cmd.ExecuteReader();
@@ -171,10 +183,13 @@ namespace NeuraLink.Pages
         private void LoadFromDatabaseButton_Click(object sender, RoutedEventArgs e)
         {
             NeuralNetwork network;
-            List<int> keys = new List<int>();
             List<Layer> layers = new List<Layer>();
             List<Neuron> neurons = new List<Neuron>();
+            List<Dendrite> dendrites = new List<Dendrite>();
             Connection connectionWindow = new Connection();
+
+            int learningRate;
+
             connectionWindow.ShowDialog();
 
             string connString = "Server = " + connectionWindow.Address + ";";
@@ -182,34 +197,95 @@ namespace NeuraLink.Pages
             connString += "Uid = " + connectionWindow.Username + ";";
             connString += "Pwd = " + connectionWindow.Password + ";";
 
-            MySqlConnection connection = new MySqlConnection(connString);
-
-            MySqlCommand cmd = new MySqlCommand(null, connection);
-            MySqlDataReader reader;
-            connection.Open();
-
-            cmd.CommandText = "select * from Layer where Name = \"" + NameTextBox.Text + "\"";
-            reader = cmd.ExecuteReader();
-            while(reader.Read())
+            using (MySqlConnection connection = new MySqlConnection(connString))
             {
-                keys.Add(reader.GetInt32("idLayer"));
-                layers.Add(new Layer(0, (ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), reader.GetString("ActivationFunction"))));
-            }
-            reader.Close();
+                int currentNeuronID = 0, currentLayerID = 0;
+                double currentNeuronBias = 0;
+                ActivationFunctions currentLayerAF = 0;
 
-            foreach (int layer in keys)
-            {
-                cmd.CommandText = "select * from Neuron where idLayer = " + layer;
-                reader = cmd.ExecuteReader();
+                MySqlCommand cmd = new MySqlCommand(string.Empty, connection);
+                MySqlDataReader reader;
 
-                while (reader.Read())
+                try
                 {
-                    neurons.Add(new Neuron(reader.GetDouble("Bias")));
+                    if (connection.State != System.Data.ConnectionState.Open)
+                        connection.Open();
+
+                    cmd.CommandText = "SELECT * FROM neuron where neuron.idLayer = (select max(layer.idLayer) from layer where layer.Name = \"" + NameTextBox.Text + "\");";
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        neurons.Add(new Neuron(0));
+                    }
+
+                    layers.Add(new Layer(new List<Neuron>(neurons), ActivationFunctions.Sigmoid));
+                    neurons.Clear();
+
+                    reader.Close();
+
+                    cmd.CommandText = CommandStrings.NetworkLoadCmd;
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (reader.GetInt32(2) != currentNeuronID)
+                        {
+                            if (dendrites.Count > 0)
+                            {
+                                neurons.Add(new Neuron(new List<Dendrite>(dendrites), currentNeuronBias));
+                                dendrites.Clear();
+                            }
+                            currentNeuronID = reader.GetInt32(2);
+                            currentNeuronBias = Double.Parse(reader.GetString(3).Replace('.', ','));
+                        }
+
+                        if (reader.GetInt32(4) != currentLayerID)
+                        {
+                            if (neurons.Count != 0)
+                            {
+                                layers.Add(new Layer(new List<Neuron>(neurons), currentLayerAF));
+                                neurons.Clear();
+                                dendrites.Clear();
+                            }
+                            currentLayerID = reader.GetInt32(4);
+                            currentLayerAF = (ActivationFunctions)Enum.Parse(typeof(ActivationFunctions), reader.GetString(5));
+                        }
+                        dendrites.Add(new Dendrite(Double.Parse(reader.GetString(1).Replace('.', ','))));
+                    }
+
+                    neurons.Add(new Neuron(dendrites, currentNeuronBias));
+                    layers.Add(new Layer(neurons, currentLayerAF));
+                    mainWindow.neuralNetwork = new NeuralNetwork(layers, Double.Parse(reader.GetString(6).Replace('.', ',')));
+                    reader.Close();
+
+                    if (connection.State == System.Data.ConnectionState.Open)
+                        connection.Close();
+                }
+                catch(Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
                 }
             }
+        }
 
-            if (connection.State == System.Data.ConnectionState.Open)
-                connection.Close();
+        private void GenerateDatabase(string addres, string username, string password, string databaseName)
+        {
+            MySqlConnection conn = new MySqlConnection("Server=" + addres + ";Uid=" + username + ";Pwd=" + password + ";");
+            MySqlCommand cmd = new MySqlCommand("create database " + databaseName, conn);
+
+            if(conn.State == System.Data.ConnectionState.Closed)
+                conn.Open();
+            
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = "use " + databaseName + ";";
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = CommandStrings.DBCreationString;
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
     }
 }

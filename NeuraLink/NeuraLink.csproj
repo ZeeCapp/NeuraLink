@@ -110,6 +110,7 @@
     <Compile Include="SaveWarning.xaml.cs">
       <DependentUpon>SaveWarning.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Strings.cs" />
     <Page Include="Connection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
