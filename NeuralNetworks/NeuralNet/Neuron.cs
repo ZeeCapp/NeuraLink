@@ -26,6 +26,12 @@ namespace NeuralNetworks
             this.Dendrites = new List<Dendrite>();
         }
 
+        public Neuron(double bias)
+        {
+            this.Bias = bias;
+            Dendrites = new List<Dendrite>();
+        }
+
         public Neuron(List<Dendrite> dendrites, double bias)
         {
             this.Dendrites = dendrites;

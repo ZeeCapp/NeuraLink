@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeuraLink"
         mc:Ignorable="d"
         MinWidth="1000"
-        Title="NeuraLink" Height="700" Width="1100" Icon="Resources/logo.png" SizeChanged="Window_SizeChanged">
+        Title="NeuraLink" Height="700" Width="1100" Icon="Resources/logo.png">
     <Grid Background="#FF323232" Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="135"/>
@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="TrainNetworkButton" Style="{StaticResource TopMenuButton}" Content="Create and Train" Grid.Row="1" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" Click="TrainNetworkButton_Click" ></Button>
         <Button x:Name="RunNetworkButton" Style="{StaticResource MenuButton}" Content="Run" Grid.Row="2" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" BorderBrush="#FF373737"  Click="RunNetworkButton_Click" />
-        <Button x:Name="SaveNetworkButton" Style="{StaticResource MenuButton}" Content="Save / Load" Grid.Row="3" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Foreground="#FFE4E4E4" BorderBrush="#FF373737"  Click="SaveNetworkButton_Click" />
+        <Button x:Name="SaveNetworkButton" Style="{StaticResource MenuButton}" Content="Save / Load" Grid.Row="3" Width="220" Height="120" FontFamily="Microsoft New Tai Lue" FontSize="22" Background="#FF232323" FontWeight="Heavy" Click="SaveNetworkButton_Click" />
         <Image x:Name="image" Height="135" Width="220" Source="Resources/logoNeuraLink.png" Grid.Row="0" Grid.Column="0" Margin="32,0,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
             <Image.OpacityMask>
                 <ImageBrush ImageSource="Resources/logoNeuraLink.png" Stretch="Uniform"/>

@@ -177,8 +177,20 @@ namespace NeuraLink.Pages
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            if (selectedTrainingFile == null || selectedTrainingFile == string.Empty)
+            {
+                consoleTextBox.AppendText("No training data selected !\n");
+                return;
+            }
+
+            if (window.neuralNetwork == null)
+            {
+                consoleTextBox.AppendText("No network loaded !\n");
+                return;
+            }
+
             List<double> inputValues = new List<double>();
-            List<double> outputValues = new List<double>();           
+            List<double> outputValues = new List<double>();
 
             List<string> readData = CSVReader.ReadCSVFile(selectedTrainingFile);
 
@@ -200,7 +212,7 @@ namespace NeuraLink.Pages
 
             if (span.TotalMilliseconds >= 0)
             {
-                networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), span);               
+                networkTrainer = neuralNetwork.TrainAsync(inputValues, outputValues, double.Parse(errorTargetTextBox.Text), span);
             }
             else
             {
@@ -209,19 +221,24 @@ namespace NeuraLink.Pages
 
             Task errorDisplayer = Task.Factory.StartNew(async () =>
             {
-                while(networkTrainer.Status != TaskStatus.Canceled || networkTrainer.Status != TaskStatus.Faulted || networkTrainer.Status != TaskStatus.RanToCompletion)
+                while (networkTrainer.Status != TaskStatus.Canceled || networkTrainer.Status != TaskStatus.Faulted || networkTrainer.Status != TaskStatus.RanToCompletion)
                 {
                     if (neuralNetwork.AbsoluteError != 0)
                     {
-                        this.Dispatcher.Invoke(()=> {
+                        this.Dispatcher.Invoke(() =>
+                        {
                             consoleTextBox.AppendText("Training...   current error: " + neuralNetwork.AbsoluteError.ToString() + "      Elapsed: " + neuralNetwork.elapsed.TotalMilliseconds + " milliseconds" + Environment.NewLine);
                             consoleTextBox.ScrollToEnd();
-                        });                     
-                    }
-
-                    await Task.Delay(300);
+                        });
+                    }                    
+                   await Task.Delay(300);
                 }
+                this.Dispatcher.Invoke(() =>
+                {
+                    consoleTextBox.AppendText("Training finished.\n");
+                });
             });
+
         }
     }
 }

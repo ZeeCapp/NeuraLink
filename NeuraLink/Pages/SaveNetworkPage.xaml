@@ -8,7 +8,20 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SaveNetworkPage">
 
-    <Grid>
-        
+    <Grid Background="{StaticResource SuperDarkBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="LoadFromXMLButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Load" HorizontalAlignment="Left" Height="48"  VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"  Margin="10,180,0,0" Click="LoadFromXMLButton_Click"/>
+        <Button x:Name="SaveAsXMLButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Save" HorizontalAlignment="Left" Height="48"  VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"  Margin="10,120,0,257" Click="SaveAsXMLButton_Click"/>
+        <Button x:Name="SaveToDatabaseButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Save" HorizontalAlignment="Left" Height="48"  VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"  Margin="10,120,0,257" Grid.Column="1" Click="SaveToDatabaseButton_Click"/>
+        <Button x:Name="LoadFromDatabaseButton" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Content="Load" HorizontalAlignment="Left" Height="48"  VerticalAlignment="Top" Width="121" FontWeight="Bold" FontSize="14"  Margin="10,180,0,0" Grid.Column="1" Click="LoadFromDatabaseButton_Click"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="File" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Database (MySQL)" HorizontalAlignment="Left" Margin="10,89,0,0" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33" Grid.Column="1"/>
+        <Label  Foreground="{StaticResource LightTextBrush}" Content="Network name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="191" FontSize="18" FontFamily="Microsoft Tai Le" FontWeight="Bold" Height="33"/>
+        <TextBox x:Name="NameTextBox" Background="{StaticResource LightBackgroundBrush}" Foreground="{StaticResource LightTextBrush}" Style="{StaticResource omegalul}" HorizontalAlignment="Left" Height="26" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="121" VerticalContentAlignment="Center" FontSize="15"/>
+
+
     </Grid>
 </Page>

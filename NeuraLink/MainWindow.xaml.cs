@@ -36,49 +36,46 @@ namespace NeuraLink
             InitializeComponent();
             currentRunPage = new RunNetworkPage(this);
             currentTrainPage = new TrainNetworkPage(this);
-            currentSavePage = new SaveNetworkPage();
+            currentSavePage = new SaveNetworkPage(this);
+            TrainNetworkButton_Click(this,null);
         }
 
         private void TrainNetworkButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = null;
-            MainFrame.Content = currentTrainPage;
-            currentTrainPage.UpdateLayerDisplay(neuralNetwork);
-            TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-            RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
-
+            if (MainFrame.Content != currentTrainPage)
+            {
+                MainFrame.Content = null;
+                MainFrame.Content = currentTrainPage;
+                currentTrainPage.UpdateLayerDisplay(neuralNetwork);
+                TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                SaveNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+            }
         }
 
         private void RunNetworkButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = null;
-
-            MainFrame.Content = currentRunPage;
-            graph = (Graph)MainFrame.FindName("DataGraph");
-            TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
-            RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            object content = MainFrame.Content;
-
-            Page currentPage = (Page)content;
-            if (currentPage != null)
+            if (MainFrame.Content != currentRunPage)
             {
-                Graph graph = (Graph)currentPage.FindName("DataGraph");
-                if (graph != null)
-                {
-                    graph.CurrentData = new List<double> { 1, 4, 2, 8, 7, 2 };
-                }
+                MainFrame.Content = null;
+                MainFrame.Content = currentRunPage;
+                graph = (Graph)MainFrame.FindName("DataGraph");
+                TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                SaveNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
             }
         }
 
         private void SaveNetworkButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = null;
-
-            MainFrame.Content = currentSavePage;
+            if (MainFrame.Content != currentSavePage)
+            {
+                TrainNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                RunNetworkButton.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                SaveNetworkButton.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+                MainFrame.Content = null;
+                MainFrame.Content = currentSavePage;
+            }
         }
     }
 }

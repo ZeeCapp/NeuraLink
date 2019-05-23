@@ -13,6 +13,7 @@ namespace NeuralNetworks
 
     public class NeuralNetwork
     {
+        public string Name { get; set; } = "";
         public List<ActivationFunctions> activationFunctions;
         public double AbsoluteError { get; private set; }
         public List<Layer> Layers { get; set; }
@@ -207,7 +208,7 @@ namespace NeuralNetworks
 
                 elapsed = clock.Elapsed;
             }
-            while (AbsoluteError > target && clock.Elapsed < learningTime); //end of main cycle
+            while (AbsoluteError > target || clock.Elapsed < learningTime); //end of main cycle
 
             clock.Stop();
             elapsed = clock.Elapsed;
@@ -320,6 +321,7 @@ namespace NeuralNetworks
             XmlWriterSettings setting = new XmlWriterSettings();
             setting.Indent = true;
             Stream stream;
+            path += ".xml";
 
             stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
 
@@ -328,6 +330,7 @@ namespace NeuralNetworks
                 writer.WriteStartDocument();
                 writer.WriteStartElement("NeuralNetwork");
                 writer.WriteAttributeString("learningRate", LearningRate.ToString());
+                writer.WriteAttributeString("name", Name.ToString());
                 foreach (Layer layer in Layers)
                 {
                     writer.WriteStartElement("Layer");
