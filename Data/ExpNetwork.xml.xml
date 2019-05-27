@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NeuralNetwork learningRate="0,05" name="">
+  <Layer activationFunction="Sigmoid">
+    <Neuron bias="0" />
+  </Layer>
+  <Layer activationFunction="Sigmoid">
+    <Neuron bias="0,01">
+      <InputDendrite weight="0,184097289659128" />
+    </Neuron>
+    <Neuron bias="0,01">
+      <InputDendrite weight="0,576554912876596" />
+    </Neuron>
+    <Neuron bias="0,01">
+      <InputDendrite weight="0,748597730765397" />
+    </Neuron>
+    <Neuron bias="0,01">
+      <InputDendrite weight="0,65895365954328" />
+    </Neuron>
+    <Neuron bias="0,01">
+      <InputDendrite weight="0,139584543248445" />
+    </Neuron>
+  </Layer>
+  <Layer activationFunction="Sigmoid">
+    <Neuron bias="5,29821993310244">
+      <InputDendrite weight="-0,525763955287758" />
+      <InputDendrite weight="-6,37166950794809" />
+      <InputDendrite weight="-8,10107356103124" />
+      <InputDendrite weight="-6,96878010159757" />
+      <InputDendrite weight="0,665295934203119" />
+    </Neuron>
+    <Neuron bias="4,44492675281223">
+      <InputDendrite weight="-0,447132338366085" />
+      <InputDendrite weight="-5,28951877534813" />
+      <InputDendrite weight="-6,91203308865158" />
+      <InputDendrite weight="-6,16355153561186" />
+      <InputDendrite weight="0,762330022704219" />
+    </Neuron>
+    <Neuron bias="-26,7810349438353">
+      <InputDendrite weight="-4,64336611717248" />
+      <InputDendrite weight="12,5694375417404" />
+      <InputDendrite weight="18,0616324406654" />
+      <InputDendrite weight="15,3303902200042" />
+      <InputDendrite weight="-6,34393862669404" />
+    </Neuron>
+    <Neuron bias="-39,6192477316312">
+      <InputDendrite weight="-6,03953223916655" />
+      <InputDendrite weight="18,3440227062492" />
+      <InputDendrite weight="27,1298612748802" />
+      <InputDendrite weight="22,7051068437746" />
+      <InputDendrite weight="-9,27731631827718" />
+    </Neuron>
+    <Neuron bias="-14,6294402415725">
+      <InputDendrite weight="-1,57194662255555" />
+      <InputDendrite weight="9,26359600407799" />
+      <InputDendrite weight="12,3124928091824" />
+      <InputDendrite weight="11,3055493951183" />
+      <InputDendrite weight="-2,34092933060015" />
+    </Neuron>
+  </Layer>
+  <Layer activationFunction="Sigmoid">
+    <Neuron bias="-11,5944171503629">
+      <InputDendrite weight="-4,35703593810281" />
+      <InputDendrite weight="-4,10580589078332" />
+      <InputDendrite weight="23,0410168885671" />
+      <InputDendrite weight="36,4166877249722" />
+      <InputDendrite weight="11,3001027506577" />
+    </Neuron>
+  </Layer>
+</NeuralNetwork>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NeuralNetwork learningRate="0,001" name="">
+  <Layer activationFunction="ReLU">
+    <Neuron bias="0" />
+  </Layer>
+  <Layer activationFunction="ReLU">
+    <Neuron bias="0,05">
+      <InputDendrite weight="0,685321519936119" />
+    </Neuron>
+  </Layer>
+  <Layer activationFunction="ReLU">
+    <Neuron bias="1,92625939980585">
+      <InputDendrite weight="1,45921412447189" />
+    </Neuron>
+  </Layer>
+</NeuralNetwork>
