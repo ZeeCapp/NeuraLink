@@ -211,7 +211,7 @@ namespace NeuraLink.Pages
                     if (connection.State != System.Data.ConnectionState.Open)
                         connection.Open();
 
-                    cmd.CommandText = "SELECT * FROM neuron where neuron.idLayer = (select max(layer.idLayer) from layer where layer.Name = \"" + NameTextBox.Text + "\");";
+                    cmd.CommandText = "SELECT * FROM neuron where neuron.idLayer = (select min(layer.idLayer) from layer where layer.Name = \"" + NameTextBox.Text + "\");";
                     reader = cmd.ExecuteReader();
 
                     while (reader.Read())
