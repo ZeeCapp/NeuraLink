@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NeuralNetwork learningRate="0,001" name="">
+  <Layer activationFunction="ReLU">
+    <Neuron bias="0" />
+    <Neuron bias="0" />
+  </Layer>
+  <Layer activationFunction="ReLU">
+    <Neuron bias="0,985054983750477">
+      <InputDendrite weight="0,202797393874637" />
+      <InputDendrite weight="0,0341781522306512" />
+    </Neuron>
+    <Neuron bias="0,985054983750477">
+      <InputDendrite weight="0,471754349056517" />
+      <InputDendrite weight="0,607666388436997" />
+    </Neuron>
+    <Neuron bias="0,985054983750477">
+      <InputDendrite weight="0,110723160724492" />
+      <InputDendrite weight="0,32300894862181" />
+    </Neuron>
+    <Neuron bias="0,985054983750477">
+      <InputDendrite weight="0,7370585867842" />
+      <InputDendrite weight="0,310629690676289" />
+    </Neuron>
+    <Neuron bias="0,985054983750477">
+      <InputDendrite weight="0,444971987719169" />
+      <InputDendrite weight="0,926321972127222" />
+    </Neuron>
+  </Layer>
+  <Layer activationFunction="ReLU">
+    <Neuron bias="-0,844080557025973">
+      <InputDendrite weight="-0,511452901780472" />
+      <InputDendrite weight="0,117120665828065" />
+      <InputDendrite weight="-0,629846031947352" />
+      <InputDendrite weight="0,962681750387466" />
+      <InputDendrite weight="0,918383260841772" />
+    </Neuron>
+  </Layer>
+</NeuralNetwork>

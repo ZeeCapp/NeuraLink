@@ -53,6 +53,7 @@ namespace NeuraLink
         {
             if(mainWindow.neuralNetwork != null)
             {
+                InputListBox.Items.Clear();
                 for(int l = 1;l<=mainWindow.neuralNetwork.Layers[0].Neurons.Count;l++)
                 {
                     InputListBox.Items.Add(new InputNeuron("Input " + l.ToString(), 0));

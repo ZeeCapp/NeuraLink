@@ -220,7 +220,7 @@ namespace NeuraLink.Pages
 
                 for (int line = 0; line < readData.Count; line++)
                 {
-                    string[] splitData = readData[line].Split(',');
+                    string[] splitData = readData[line].Split(';');
 
                     for (int data = 0; data < splitData.Length; data++)
                     {
@@ -233,7 +233,7 @@ namespace NeuraLink.Pages
             }
             catch(Exception exc)
             {
-                consoleTextBox.AppendText("Invalid training data !");
+                consoleTextBox.AppendText("Invalid training data !\n");
                 return;
             }
 
